@@ -13,6 +13,6 @@
 
 void    ft_error(int n)
 {
-    if (n)
+    if (n == 1)
         exit(1);
 }

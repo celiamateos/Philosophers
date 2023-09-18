@@ -11,45 +11,44 @@
 /* ************************************************************************** */
 #include "./../philosophers.h"
 
-int   ft_check_av(char **av, t_data *data)
+void    leaks()
 {
-    int i = 0;
-    int j;
-    while (av[++i])
-    {
-        j = -1;
-        while (av[i][++j])
-        {
-            if (!ft_isdigit(av[i][j]))
-                return (-1);
-        }
-    }
-    data->philos = atoi(av[1]);
-    data->time_to_die = atoi(av[2]);
-    data->time_to_eat = atoi(av[3]);
-    data->time_to_sleep = atoi(av[4]);
-    if (av[5])
-        data->meal_count = atoi(av[5]);
-    if (data->philos < 1 || data->philos > 200 
-    || data->time_to_die < 0 || data->meal_count < 0)
-        return (-1);
-    return (0);
+	system ("leaks -q philosophers");
 }
 
-
+int ft_free(t_data *data)
+{
+	if(data->philo)
+		free(data->philo);
+	if(data->tpid)
+		free(data->tpid);
+	if(data->fork)
+		free(data->fork);
+	if(data)
+		free(data);
+	exit (1);
+	return 0;
+}
 
 int main (int ac, char **av)
 {
-    t_data data;
+	atexit(leaks);
+	t_data data;
 
-    if (ac == 5 || ac == 6)
-    {
-        if (ft_check_av(av, &data) == -1)
-            return (1);
-        ft_init(&data);
-
-    }
-
-    return 0;
+	//data = ft_calloc(1, sizeof(t_data));
+	//if (!data)
+	//	return (0);
+	if (ac == 5 || ac == 6)
+	{
+		if (ft_check_av(av, &data) == -1)
+			return (ft_error(0, &data));
+		ft_init(&data);
+	}
+	printf("\nNúmero de philos:%d", data.nbr_philos);
+	printf("\nTime to die:%d", data.time_to_die);
+	printf("\nTime to eat:%d", data.time_to_eat);
+	printf("\nTime to sleep:%d", data.time_to_sleep);
+	ft_free(&data);
+	return 0;
 
 }

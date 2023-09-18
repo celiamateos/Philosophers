@@ -78,22 +78,22 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(LIB) $(NAME) $(OBJ)
+	@$(LIB) $(NAME) $(OBJ)
 
 bonus: $(OBJ) $(OBJ_BONUS)
-	ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
+	@ar rc $(NAME) $(OBJ_BONUS) $(OBJ)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 Coment:
 	echo $(TEXT)
 clean:
-	rm -rdf $(OBJ)
-	rm -rdf $(OBJ_BONUS)
+	@rm -rdf $(OBJ)
+	@rm -rdf $(OBJ_BONUS)
 
 fclean: clean
-	rm -rdf $(NAME)
+	@rm -rdf $(NAME)
 
 re: fclean all
 

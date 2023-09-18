@@ -11,8 +11,11 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-void    ft_error(int n)
+int    ft_error(int n, t_data *data)
 {
-    if (n == 1)
-        exit(1);
+	if (n == 1)
+		exit(0);
+	if (data)
+		ft_free(data);
+	exit(1);
 }

@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-int    ft_error(int n, t_data *data)
+int    ft_error(int n, t_data *data, t_philo *philo)
 {
 	if (n == 1)
 		exit(0);
-	if (data)
-		ft_free(data);
+	if (data || philo)
+		ft_free(data, philo);
 	exit(1);
 }
+

@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   ft_initc                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
+/*   By: cmateos <cmateos-@student42madridcom>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 11:20:43 by cmateos           #+#    #+#             */
-/*   Updated: 2023/09/16 11:20:44 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/09/16 11:20:44 by cmateos-         ###   ########fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "./../philosophers.h"
+#include "../philosophers.h"
 
-int	ft_init(t_data data)
+long	get_time(void)
 {
-	data.philo = malloc(data.nbr_philos * sizeof(t_philo));
-	if (!data.philo)
-		return (ft_error(0, data));
-	data.tpid = malloc(data.nbr_philos * sizeof(pthread_t));
-	if (!data.tpid)
-		return (ft_error(0, data));
-	data.fork = malloc(data.nbr_philos * sizeof(pthread_mutex_t));
-	if(!data.fork)
-		return(ft_error(0, data));
+	struct timeval	current_time;
+
+	if (gettimeofday(&current_time, NULL) == 0)
+	{
+        printf("\nSegundos: %ld", current_time.tv_sec);
+        printf("\nMicrosegundos: %ld", current_time.tv_usec);
+	}
+		return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
+
+int	ft_init(t_data *data, t_philo *philo)
+{
+	data->tpid = malloc(data->nbr_philos * sizeof(pthread_t));
+	if (!data->tpid)
+		return (ft_error(0, data, philo));
+	data->fork = malloc(data->nbr_philos * sizeof(pthread_mutex_t));
+	if(!data->fork)
+		return(ft_error(0, data, philo));
+	data->start_time = get_time();
 	return (0);
 }
 

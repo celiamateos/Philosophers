@@ -11,27 +11,48 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-long	get_time(void)
+void	ft_init_philos(t_data *data, t_philo *philo)
 {
-	struct timeval	current_time;
+	int i;
 
-	if (gettimeofday(&current_time, NULL) == 0)
+	i = 0;
+	data->philo_id = malloc(data->nbr_philos * sizeof(pthread_t));
+	if (!data->philo_id)
+		ft_error(0, data, philo);
+	while (i < data->nbr_philos)
 	{
-        printf("\nSegundos: %ld", current_time.tv_sec);
-        printf("\nMicrosegundos: %ld", current_time.tv_usec);
+		philo[i].pdata = data;
+		philo[i].death_time = data->time_to_die;
+		philo[i].philo_num = i + 1;
+		philo[i].meal_counter = 0;
+		i++;
 	}
-		return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+	i = 0;
+	/*while (1 < data->nbr_philos)
+	{
+		pthread_create(&data->philo_id[i], NULL, s, (void *)&philo[i]);
+		i++;
+	}*/
+}
+
+void	ft_init_fork(t_data *data, t_philo *philo)
+{
+	int i;
+
+	i = -1;
+	data->fork = malloc(data->nbr_philos * sizeof(pthread_mutex_t));
+	if(!data->fork)
+		ft_error(0, data, philo);
+	while(++i < data->nbr_philos)
+		pthread_mutex_lock(&data->fork[++i]);	
 }
 
 int	ft_init(t_data *data, t_philo *philo)
 {
-	data->tpid = malloc(data->nbr_philos * sizeof(pthread_t));
-	if (!data->tpid)
-		return (ft_error(0, data, philo));
-	data->fork = malloc(data->nbr_philos * sizeof(pthread_mutex_t));
-	if(!data->fork)
-		return(ft_error(0, data, philo));
+	ft_init_fork(data, philo);
+	ft_init_philos(data, philo);
 	data->start_time = get_time();
+	//printf("%ld", data->start_time);
 	return (0);
 }
 

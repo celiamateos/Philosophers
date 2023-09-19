@@ -26,7 +26,7 @@ BROWN =	\033[0;38;2;184;143;29m
 
 NAME = philosophers
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g3
 RM = rm -f
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a

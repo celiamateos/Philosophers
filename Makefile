@@ -26,23 +26,16 @@ BROWN =	\033[0;38;2;184;143;29m
 
 NAME = philosophers
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 RM = rm -f
-LIBFT_DIR = libft/
-LIBFT = $(LIBFT_DIR)libft.a
-SRC = ./src/philosophers.c ./src/utils.c ./src/ft_init.c
+SRC = ./src/philosophers.c ./src/utils.c ./src/ft_init.c ./src/ft_split.c ./src/ft_check_args.c
 OBJ = $(SRC:.c=.o)
 INCLUDE = philosophers.h
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) 
-
-$(LIBFT):
-#@echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(MAGENTA)$<"
-	@make -C $(LIBFT_DIR)
-	@echo "$(COLOR_MAGENTA) Library created! 📚 $(COLOR_RESET)"
+$(NAME): $(OBJ) $(INCLUDE)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) 
 
 %.o: %.c
 	@echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
@@ -50,14 +43,12 @@ $(LIBFT):
 	@echo "$(COLOR_BLUE) Created! 😸 $(COLOR_RESET)"
 
 clean:
-	@rm -f $(OBJ) $(LIBFT)
-	@make clean -C $(LIBFT_DIR)
+	@rm -f $(OBJ)
 #@echo "$(COLOR_RED) Cleaned files .o $(COLOR_RESET)"
 
 
 fclean: clean
 	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR)
 	@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
 
 normi:

@@ -13,6 +13,21 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+struct	s_data;
+
+typedef struct s_philo
+{
+	struct s_data	*data;
+	pthread_t		philo_id;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+	int     philo_index;
+	int		death_time;
+	int     meal_counter;
+	long long	time_last_meal;
+	
+}           t_philo;
+
 typedef struct s_data
 {
 	int				nbr_philos;
@@ -23,20 +38,10 @@ typedef struct s_data
 	int				philo_died;
 	pthread_mutex_t	*m_fork;
 	pthread_mutex_t m_write;
+	t_philo			*philo;
 }              t_data;
 
-typedef struct s_philo
-{
-	t_data	*data;
-	pthread_t		*philo_id;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
-	int     philo_index;
-	int		death_time;
-	int     meal_counter;
-	long long	time_last_meal;
-	
-}               t_philo;
+
 
 int		main (int ac, char **av);
 int ft_check_args(int ac, char **av);

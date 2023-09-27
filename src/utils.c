@@ -24,18 +24,14 @@ void	*ft_calloc(size_t count, size_t size)
 
 int ft_free(t_data *data, t_philo *philo)
 {
-	// int i = 0;
-	// while (i < data->nbr_philos)
-	// {
-	// 	pthread_mutex_destroy(&data->m_fork[i]);
-	// 	i++;
-	// }
-	if(philo)
-		free (philo);
+
+
 	// if(philo->philo_id)
-	// 	free(philo->philo_id);
-	// if(data->m_fork)
-	// 	free(data->m_fork);
+	// // 	free(philo->philo_id);
+	if(data->m_fork)
+		free(data->m_fork);
+        if(philo)
+		free (philo);
 	if(data)
 		free(data);
 	exit (1);

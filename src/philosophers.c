@@ -31,7 +31,6 @@ void	is_eating(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 }
 
-
 void	*ft_routine(void *philos)
 {
 	t_philo *philo;
@@ -61,11 +60,11 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 	size = data->nbr_philos;
 	while (i < size)
 	{
-		if (pthread_create(&philo[i].philo_id, NULL, ft_routine, (void *)&philo[i]))
-		{
-			printf("\nError al crear el hilo");
-			return (-1);
-		}
+		pthread_create(&philo[i].philo_id, NULL, ft_routine, (void *)&philo[i]);
+		// {
+		// 	printf("\nError al crear el hilo");
+		// 	return (-1);
+		// }
 
 		i++;
 	}
@@ -89,14 +88,14 @@ void ft_join_pthreads(t_philo *philo, t_data *data)
 	// return (0);
 }
 
-void ft_clean(t_data *data)
+void ft_clean(t_data *data, t_philo *philo)
 {
 	int i = 0;
+	if (!philo)
+		return ;
 	while (i < data->nbr_philos)
         {
                 pthread_mutex_destroy(&data->m_fork[i]);
-	        	pthread_mutex_destroy(data->philo[i].l_fork);
-                pthread_mutex_destroy(data->philo[i].r_fork);
                 i++;
         }
         pthread_mutex_destroy(&data->m_write);
@@ -106,9 +105,9 @@ int main (int ac, char **av)
 {
 	// atexit(leaks);
 	t_data *data;
-	t_philo *philo;
+	t_philo *philo = 0;
 
-	data = ft_calloc(1, sizeof(t_data));
+	data = (t_data *)malloc(1 * sizeof(t_data));
 	if (!data)
 		return (-1);
 	if (ft_check_args(ac, av))
@@ -116,19 +115,16 @@ int main (int ac, char **av)
 		printf("Error\n Bad arguments!");
 		ft_free(data, NULL);
 	}
-	philo = ft_calloc(data->nbr_philos, sizeof(t_philo));
-	if (!philo)
-		return (-1);
-	ft_init(ac, av, data, philo);
+	philo = ft_init(ac, av, data, philo);
 	if (ft_start_pthreads(data, philo))
 		ft_free(data, philo);
 	ft_join_pthreads(philo, data);
-		// ft_free(data, philo);
+		ft_free(data, philo);
 	printf("\nNúmero de philoss:%d", data->nbr_philos);
-	printf("\nTime to die:%d", data->time_to_die);
-	printf("\nTime to eat:%d", data->time_to_eat);
-	printf("\nTime to sleep:%d", data->time_to_sleep);
-	ft_clean(data);
+	printf("\nTime to die:%ld", data->time_to_die);
+	printf("\nTime to eat:%ld", data->time_to_eat);
+	printf("\nTime to sleep:%ld", data->time_to_sleep);
+	ft_clean(data, philo);
 	ft_free(data, philo);
 	return (0);
 }

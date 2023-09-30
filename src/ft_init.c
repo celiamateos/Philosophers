@@ -11,47 +11,6 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-void	ft_init_philos(t_data *data, t_philo *philo)
-{
-	int i;
-
-	i = 0;
-	//Al meter philo_id(threads_t) dentro de la estructura philo, no hace falta hacer un array. Se crea en thread_created
-	// philo->philo_id = malloc(data->nbr_philos * sizeof(pthread_t));
-	// if (!philo->philo_id)
-	// 	ft_error(0, data, philo);
-	while (i < data->nbr_philos)
-	{
-		philo[i].data = data;
-		philo[i].death_time = data->time_to_die;
-		philo[i].philo_index = i + 1;
-		philo[i].meal_counter = 0;
-		philo[i].l_fork = &data->m_fork[i];
-		if (i - 1 < 0)
-			philo[i].r_fork = &data->m_fork[data->nbr_philos - 1];
-		else
-			philo[i].r_fork = &data->m_fork[i - 1];
-		i++;
-	}
-}
-
-void	ft_init_fork(t_data *data, t_philo *philo)
-{
-	int i;
-	if (!philo)
-		return ;
-
-	// data->m_fork = ft_calloc(data->nbr_philos, sizeof(pthread_mutex_t *));
-	// if(!data->m_fork)
-	// 	ft_error(0, data, philo);
-	i = 0;
-	while (i < data->nbr_philos) {
-		pthread_mutex_init(&data->m_fork[i], NULL);	
-		i++;
-	}
-	pthread_mutex_init(&data->m_write, NULL);
-}
-
 int	ft_init_data(int ac, char **av, t_data *data)
 {
 	int i;
@@ -81,16 +40,60 @@ int	ft_init_data(int ac, char **av, t_data *data)
 	return (0);
 }
 
-
-int	ft_init(int ac, char **av, t_data *data, t_philo *philo)
+void	ft_init_fork(t_data *data)
 {
+	int i;
 
+	data->m_fork = ft_calloc(data->nbr_philos, sizeof(pthread_mutex_t *));
+	if(!data->m_fork)
+		ft_error(0, data, NULL);
+	i = 0;
+	while (i < data->nbr_philos)
+	{
+		pthread_mutex_init(&data->m_fork[i], NULL);	
+		i++;
+	}
+	pthread_mutex_init(&data->m_write, NULL);
+}
+
+t_philo *ft_init_philos(t_data *data, t_philo *philo)
+{
+	int i;
+
+	i = 0;
+	//Al meter philo_id(threads_t) dentro de la estructura philo, no hace falta hacer un array. Se crea en thread_created
+	// philo->philo_id = (pthread_t)malloc(data->nbr_philos * sizeof(pthread_t));
+	// if (!philo->philo_id)
+	// 	ft_error(0, data, philo);
+	philo = (t_philo *)malloc((data->nbr_philos) * sizeof(t_philo));
+	if (!philo)
+		ft_free(data, NULL);
+	while (i < data->nbr_philos)
+	{
+		philo[i].philo_index = i + 1;
+		philo[i].data = data;
+		philo[i].death_time = data->time_to_die;
+		philo[i].meal_counter = 0;
+		philo[i].l_fork = &data->m_fork[i];
+		if (i - 1 < 0)
+			philo[i].r_fork = &data->m_fork[data->nbr_philos - 1];
+		else
+			philo[i].r_fork = &data->m_fork[i - 1];
+		i++;
+	}
+	return (philo);
+}
+
+
+
+
+
+t_philo *ft_init(int ac, char **av, t_data *data, t_philo *philo)
+{
 	if (ft_init_data(ac, av, data))
-		ft_free(data, philo);
-	// if (!philo || !data)
-	// 	return 0;
-	 ft_init_fork(data, philo);
-	 ft_init_philos(data, philo);
-	return (0);
+		ft_free(data, NULL);
+	ft_init_fork(data);
+	philo = ft_init_philos(data, philo);
+	return (philo);
 }
 

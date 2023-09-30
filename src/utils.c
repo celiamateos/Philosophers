@@ -26,10 +26,17 @@ int ft_free(t_data *data, t_philo *philo)
 {
 
 
-	// if(philo->philo_id)
-	// // 	free(philo->philo_id);
+	// // if(philo->philo_id)
+	// // // 	free(philo->philo_id);
+        // int i = 0;
+        // while (i < data->nbr_philos)
+        // {
+	//         if(&data->m_fork[i])
+	// 	        free(&data->m_fork[i]);
+        //         i++;
+        // }
 	if(data->m_fork)
-		free(data->m_fork);
+	        free(data->m_fork);
         if(philo)
 		free (philo);
 	if(data)

@@ -40,20 +40,28 @@ typedef struct s_philo
 }           t_philo;
 
 int		main (int ac, char **av);
-int ft_check_args(int ac, char **av);
+int 	ft_check_args(int ac, char **av);
 t_philo	*ft_init(int ac, char **av, t_data *data, t_philo *philo);
 long	get_time(void);
 
-//UTILS
+//ROUTINE
+void	*ft_routine(void *philos);
+void	is_sleeping(t_philo *philo);
+void	is_eating(t_philo *philo);
 
+//UTILS
 long	get_time(void);
 void    ft_print_status(t_philo *philo, char *msg);
-int		ft_error(int n, t_data *data, t_philo *philo);
-int		ft_free(t_data *data, t_philo *philo);
 void	*ft_calloc(size_t count, size_t size);
 char    **ft_split(char const *s, char c);
 char    *ft_substr(char const *s, unsigned int start, size_t len);
 void    ft_free_array(char **arr);
 int		len_array(char **av);
 long     ft_atol(const char *str);
+
+//FREE AND CLEAN
+void	ft_clean(t_data *data, t_philo *philo);
+int		ft_error(int n, t_data *data, t_philo *philo);
+int		ft_free(t_data *data, t_philo *philo);
+
 # endif

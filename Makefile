@@ -28,7 +28,7 @@ NAME = philosophers
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 RM = rm -f
-SRC = ./src/philosophers.c ./src/utils.c ./src/ft_init.c ./src/ft_split.c ./src/ft_check_args.c
+SRC = ./src/philosophers.c ./src/utils.c ./src/ft_init.c ./src/ft_split.c ./src/ft_check_args.c ./src/ft_time.c
 OBJ = $(SRC:.c=.o)
 INCLUDE = philosophers.h
 

@@ -28,10 +28,10 @@ int	ft_init_data(int ac, char **av, t_data *data)
 	data->time_to_die = atoi(args[i + 1]);
 	data->time_to_eat = atoi(args[i + 2]);
 	data->time_to_sleep = atoi(args[i + 3]);
-	// if (args[i + 4] != NULL)
-	// 	data->meal_count = atoi(args[i + 4]);
-	// else
-	data->meal_count = 5;
+	if (args[i + 4] != NULL)
+		data->meal_count = atoi(args[i + 4]);
+	else
+		data->meal_count = 5;
 	if (ac == 2)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
@@ -61,10 +61,6 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 	int i;
 
 	i = 0;
-	//Al meter philo_id(threads_t) dentro de la estructura philo, no hace falta hacer un array. Se crea en thread_created
-	// philo->philo_id = (pthread_t)malloc(data->nbr_philos * sizeof(pthread_t));
-	// if (!philo->philo_id)
-	// 	ft_error(0, data, philo);
 	philo = (t_philo *)malloc((data->nbr_philos) * sizeof(t_philo));
 	if (!philo)
 		ft_free(data, NULL);
@@ -74,11 +70,12 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 		philo[i].data = data;
 		philo[i].death_time = data->time_to_die;
 		philo[i].meal_counter = 0;
-		philo[i].l_fork = &data->m_fork[i];
+		philo[i].first_time = get_time();
+		philo[i].r_fork = &data->m_fork[i];
 		if (i - 1 < 0)
-			philo[i].r_fork = &data->m_fork[data->nbr_philos - 1];
+			philo[i].l_fork = &data->m_fork[data->nbr_philos - 1];
 		else
-			philo[i].r_fork = &data->m_fork[i - 1];
+			philo[i].l_fork = &data->m_fork[i - 1];
 		i++;
 	}
 	return (philo);

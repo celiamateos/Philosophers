@@ -33,6 +33,7 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	int     philo_index;
 	long	death_time;
+	long 	first_time;
 	int     meal_counter;
 	long	time_last_meal;
 	
@@ -45,6 +46,8 @@ long	get_time(void);
 
 //UTILS
 
+long	get_time(void);
+void    ft_print_status(t_philo *philo, char *msg);
 int		ft_error(int n, t_data *data, t_philo *philo);
 int		ft_free(t_data *data, t_philo *philo);
 void	*ft_calloc(size_t count, size_t size);

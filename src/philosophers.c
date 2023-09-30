@@ -21,14 +21,21 @@ void	is_eating(t_philo *philo)
 	pthread_mutex_lock(philo->l_fork);
 	pthread_mutex_lock(philo->r_fork);
 	philo->time_last_meal = get_time();
-	printf("\nphilo %d has taken a fork", philo->philo_index);
-	printf("\nphilo %d has taken a fork", philo->philo_index);
+	ft_print_status(philo, "has taken a fork");
+	ft_print_status(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->data->m_write);
-	printf("\nphilo %d is eating", philo->philo_index);
+	ft_print_status(philo, "is eating");
 	pthread_mutex_unlock(&philo->data->m_write);
 	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
+}
+
+void	is_sleeping(t_philo *philo)
+{
+	ft_print_status(philo, "is sleeping");
+	usleep(philo->data->time_to_sleep * 1000);
+	ft_print_status(philo, "is thinking");
 }
 
 void	*ft_routine(void *philos)
@@ -38,13 +45,12 @@ void	*ft_routine(void *philos)
 	int limit;
 
 	philo = (t_philo *)philos;
-	printf("\nEmpieza la rutina!");
+	// printf("\nEmpieza la rutina!");
 	limit = 3;
 	while (limit > 0)
 	{
-		// printf("\n%dey,", philo->philo_index);
-		// printf("philo id:%ld", philo->philo_id);
 		is_eating(philo);
+		is_sleeping(philo);
 		limit--;
 	}
 
@@ -60,11 +66,11 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 	size = data->nbr_philos;
 	while (i < size)
 	{
-		pthread_create(&philo[i].philo_id, NULL, ft_routine, (void *)&philo[i]);
-		// {
-		// 	printf("\nError al crear el hilo");
-		// 	return (-1);
-		// }
+		if (pthread_create(&philo[i].philo_id, NULL, ft_routine, (void *)&philo[i]))
+		{
+			printf("\nError al crear el hilo");
+			return (-1);
+		}
 
 		i++;
 	}
@@ -120,10 +126,10 @@ int main (int ac, char **av)
 		ft_free(data, philo);
 	ft_join_pthreads(philo, data);
 		ft_free(data, philo);
-	printf("\nNúmero de philoss:%d", data->nbr_philos);
-	printf("\nTime to die:%ld", data->time_to_die);
-	printf("\nTime to eat:%ld", data->time_to_eat);
-	printf("\nTime to sleep:%ld", data->time_to_sleep);
+	// printf("\nNúmero de philoss:%d", data->nbr_philos);
+	// printf("\nTime to die:%ld", data->time_to_die);
+	// printf("\nTime to eat:%ld", data->time_to_eat);
+	// printf("\nTime to sleep:%ld", data->time_to_sleep);
 	ft_clean(data, philo);
 	ft_free(data, philo);
 	return (0);

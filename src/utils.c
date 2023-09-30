@@ -54,18 +54,6 @@ int    ft_error(int n, t_data *data, t_philo *philo)
 	exit(1);
 }
 
-long	get_time(void)
-{
-	struct timeval	current_time;
-
-	if (gettimeofday(&current_time, NULL) == 0)
-	{
-        printf("\nSegundos: %ld", current_time.tv_sec);
-        printf("\nMicrosegundos: %ld", current_time.tv_usec);
-		return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
-	}
-	return (0);
-}
 
 long     ft_atol(const char *str)
 {

@@ -47,6 +47,8 @@ void ft_join_pthreads(t_philo *philo, t_data *data)
 	size = data->nbr_philos;
 	while (i < size)
 	{
+		// if (philo->data->philo_died == 1)
+		// 	break ;
 		pthread_join((philo[i].philo_id), &status);
 		i++;
 	}

@@ -46,8 +46,8 @@ long	get_time(void);
 
 //ROUTINE
 void	*ft_routine(void *philos);
-void	is_sleeping(t_philo *philo);
-void	is_eating(t_philo *philo);
+int	is_sleeping(t_philo *philo);
+int	is_eating(t_philo *philo);
 
 //UTILS
 long	get_time(void);

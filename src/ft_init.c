@@ -28,10 +28,11 @@ int	ft_init_data(int ac, char **av, t_data *data)
 	data->time_to_die = atoi(args[i + 1]);
 	data->time_to_eat = atoi(args[i + 2]);
 	data->time_to_sleep = atoi(args[i + 3]);
+	data->philo_died = 0;
 	if (args[i + 4] != NULL)
 		data->meal_count = atoi(args[i + 4]);
 	else
-		data->meal_count = 5;
+		data->meal_count = -1;
 	if (ac == 2)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
@@ -70,6 +71,7 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 		philo[i].data = data;
 		philo[i].death_time = data->time_to_die;
 		philo[i].meal_counter = 0;
+		philo[i].time_last_meal = 0;
 		philo[i].first_time = get_time();
 		philo[i].r_fork = &data->m_fork[i];
 		if (i - 1 < 0)

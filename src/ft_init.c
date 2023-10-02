@@ -65,7 +65,7 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 	int i;
 
 	i = 0;
-	philo = ft_calloc(data->nbr_philos, sizeof(t_philo *));
+	philo = ft_calloc(data->nbr_philos, sizeof(t_philo));
 	if (!philo)
 		exit(1);
 	while (i < data->nbr_philos)

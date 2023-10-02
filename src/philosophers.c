@@ -49,7 +49,7 @@ int	ft_join_pthreads(t_philo *philo, t_data *data)
 	{
 		if (pthread_join((philo[i].id), NULL) != 0)
 		{
-			printf("\nError, thread join failed");
+			printf("\nError,");
 			ft_clean(data, philo);
 		}
 		i++;

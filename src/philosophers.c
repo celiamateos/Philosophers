@@ -28,7 +28,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 		if (pthread_create(&philo[i].id, NULL, ft_routine, (void *)&philo[i]))
 		{
 			printf("\nError al crear el hilo");
-			ft_clean(data, philo);
+			return(1);
 		}
 
 		i++;
@@ -48,7 +48,7 @@ int	ft_join_pthreads(t_philo *philo, t_data *data)
 		if (pthread_join((philo[i].id), NULL) != 0)
 		{
 			printf("\nError,");
-			ft_clean(data, philo);
+			return(1);
 		}
 		i++;
 	}
@@ -77,10 +77,10 @@ int main (int ac, char **av)
 		ft_clean(data, philo);
 	if (ft_join_pthreads(philo, data))
 		ft_clean(data, philo);
-	printf("\nNúmero de philoss:%d", data->nbr_philos);
-	printf("\nTime to die:%ld", data->time_to_die);
-	printf("\nTime to eat:%ld", data->time_to_eat);
-	printf("\nTime to sleep:%ld", data->time_to_sleep);
+	// printf("\nNúmero de philoss:%d", data->nbr_philos);
+	// printf("\nTime to die:%ld", data->time_to_die);
+	// printf("\nTime to eat:%ld", data->time_to_eat);
+	// printf("\nTime to sleep:%ld", data->time_to_sleep);
 	ft_clean(data, philo);
 	exit (1);
 	return (0);

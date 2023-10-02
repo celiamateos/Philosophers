@@ -15,6 +15,7 @@
 int	ft_waiting_to_live(t_philo *philo, long time)
 {
 	long now;
+	int lock = 0;
 
 	while (time > 0)
 	{
@@ -23,12 +24,14 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 			philo->time_last_meal = philo->first_time;
 		if (now - philo->time_last_meal >= philo->death_time)
 		{
-			ft_print_status(philo, "died");
-			return(1);
+			lock = ft_print_status(philo, "died");
+
 		}
 		usleep(1000);
 		time = time - 1000;
 	}
+	if (lock == 1)
+		return(1);
 	return (0);
 }
 
@@ -87,7 +90,7 @@ void	*ft_routine(void *philos)
 	limit = philo->data->meal_count;
 	if (philo->data->nbr_philos == 1)
 	{
-		usleep(philo->data->time_to_sleep * 1000);
+		usleep(philo->data->time_to_die * 1000);
 		printf("\n%ld 1 died", (get_time() - philo->first_time));
 		return (NULL);
 	}

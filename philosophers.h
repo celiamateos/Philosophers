@@ -21,14 +21,16 @@ typedef struct s_data
 	long			time_to_sleep;
 	int 			meal_count;
 	int				philo_died;
+	pthread_mutex_t	*m_philo_died;
 	pthread_mutex_t	*m_fork;
 	pthread_mutex_t m_write;
+
 }              t_data;
 
 typedef struct s_philo
 {
 	t_data	*data;
-	pthread_t		philo_id;
+	pthread_t		id;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 	int     philo_index;
@@ -41,7 +43,7 @@ typedef struct s_philo
 
 int		main (int ac, char **av);
 int 	ft_check_args(int ac, char **av);
-t_philo	*ft_init(int ac, char **av, t_data *data, t_philo *philo);
+t_philo	*ft_init(int ac, char **av, t_data *data);
 long	get_time(void);
 
 //ROUTINE
@@ -51,7 +53,7 @@ int	is_eating(t_philo *philo);
 
 //UTILS
 long	get_time(void);
-void    ft_print_status(t_philo *philo, char *msg);
+int   ft_print_status(t_philo *philo, char *msg);
 void	*ft_calloc(size_t count, size_t size);
 char    **ft_split(char const *s, char c);
 char    *ft_substr(char const *s, unsigned int start, size_t len);
@@ -62,6 +64,6 @@ long     ft_atol(const char *str);
 //FREE AND CLEAN
 void	ft_clean(t_data *data, t_philo *philo);
 int		ft_error(int n, t_data *data, t_philo *philo);
-int		ft_free(t_data *data, t_philo *philo);
+void		ft_free(t_data *data, t_philo *philo);
 
 # endif

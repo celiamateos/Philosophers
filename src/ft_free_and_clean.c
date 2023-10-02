@@ -22,19 +22,23 @@ void ft_clean(t_data *data, t_philo *philo)
                 i++;
         }
         pthread_mutex_destroy(&data->m_write);
+		pthread_mutex_destroy(data->m_philo_died);
+	ft_free(data, philo);
 }
 
-int ft_free(t_data *data, t_philo *philo)
+void ft_free(t_data *data, t_philo *philo)
 {
 
 	if(data->m_fork)
 	        free(data->m_fork);
-        if(philo)
+	if(data->m_philo_died)
+		free(data->m_philo_died);
+    if(philo)
 		free (philo);
 	if(data)
 		free(data);
-	exit (1);
-	return 0;
+	exit(1);
+
 }
 
 int    ft_error(int n, t_data *data, t_philo *philo)

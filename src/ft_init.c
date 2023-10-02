@@ -32,22 +32,23 @@ int	ft_init_data(int ac, char **av, t_data *data)
 	if (args[i + 4] != NULL)
 		data->meal_count = atoi(args[i + 4]);
 	else
-		data->meal_count = -1;
+		data->meal_count = 100;
 	if (ac == 2)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
 		||data->time_to_die < 0 || data->meal_count < 0)
-		return (1);
+		return(free(data), 1);
 	return (0);
 }
 
-void	ft_init_fork(t_data *data)
+int	ft_init_mutex(t_data *data)
 {
 	int i;
 
 	data->m_fork = ft_calloc(data->nbr_philos, sizeof(pthread_mutex_t *));
+	data->m_philo_died = ft_calloc(1, sizeof(pthread_mutex_t));
 	if(!data->m_fork)
-		ft_error(0, data, NULL);
+		return (free(data), 1);
 	i = 0;
 	while (i < data->nbr_philos)
 	{
@@ -55,6 +56,8 @@ void	ft_init_fork(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->m_write, NULL);
+	pthread_mutex_init(data->m_philo_died, NULL);
+	return (0);
 }
 
 t_philo *ft_init_philos(t_data *data, t_philo *philo)
@@ -62,9 +65,9 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 	int i;
 
 	i = 0;
-	philo = (t_philo *)malloc((data->nbr_philos) * sizeof(t_philo));
+	philo = ft_calloc(data->nbr_philos, sizeof(t_philo *));
 	if (!philo)
-		ft_free(data, NULL);
+		exit(1);
 	while (i < data->nbr_philos)
 	{
 		philo[i].philo_index = i + 1;
@@ -73,26 +76,25 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 		philo[i].meal_counter = 0;
 		philo[i].time_last_meal = 0;
 		philo[i].first_time = get_time();
-		philo[i].r_fork = &data->m_fork[i];
-		if (i - 1 < 0)
-			philo[i].l_fork = &data->m_fork[data->nbr_philos - 1];
-		else
-			philo[i].l_fork = &data->m_fork[i - 1];
+		// philo[i].r_fork = &data->m_fork[i];
+		// if (i - 1 < 0)
+		// 	philo[i].l_fork = &data->m_fork[data->nbr_philos - 1];
+		// else
+		// 	philo[i].l_fork = &data->m_fork[i - 1];
 		i++;
 	}
 	return (philo);
 }
 
-
-
-
-
-t_philo *ft_init(int ac, char **av, t_data *data, t_philo *philo)
+t_philo *ft_init(int ac, char **av, t_data *data)
 {
+	t_philo *philo = 0;
+
 	if (ft_init_data(ac, av, data))
-		ft_free(data, NULL);
-	ft_init_fork(data);
+		return (NULL);
+	if (ft_init_mutex(data))
+		return (NULL);
 	philo = ft_init_philos(data, philo);
-	return (philo);
+	return (NULL);
 }
 

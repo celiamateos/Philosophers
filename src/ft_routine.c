@@ -70,15 +70,6 @@ int	is_sleeping(t_philo *philo)
 	return 0;
 }
 
-// int ft_isdead(t_philo *philo)
-// {
-// 	// pthread_mutex_lock(philo->data->m_philo_died);
-// 	if (philo->data->philo_died == 1)
-// 		return (1);
-// 	// pthread_mutex_unlock(philo->data->m_philo_died);
-// 	return (0);
-// }
-
 void	*ft_routine(void *philos)
 {
 	t_philo *philo;

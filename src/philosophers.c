@@ -75,15 +75,15 @@ int main (int ac, char **av)
 	philo = ft_init(ac, av, data);
 	if (philo == NULL)
 		return (1);
-	// if (ft_start_pthreads(data, philo))
-	// 	ft_clean(data, philo);
-	// if (ft_join_pthreads(philo, data))
-	// 	ft_clean(data, philo);
-	// printf("\nNúmero de philoss:%d", data->nbr_philos);
-	// printf("\nTime to die:%ld", data->time_to_die);
-	// printf("\nTime to eat:%ld", data->time_to_eat);
-	// printf("\nTime to sleep:%ld", data->time_to_sleep);
-	// ft_clean(data, philo);
+	if (ft_start_pthreads(data, philo))
+		ft_clean(data, philo);
+	if (ft_join_pthreads(philo, data))
+		ft_clean(data, philo);
+	printf("\nNúmero de philoss:%d", data->nbr_philos);
+	printf("\nTime to die:%ld", data->time_to_die);
+	printf("\nTime to eat:%ld", data->time_to_eat);
+	printf("\nTime to sleep:%ld", data->time_to_sleep);
+	ft_clean(data, philo);
 	exit (1);
 	return (0);
 }

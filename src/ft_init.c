@@ -76,11 +76,11 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 		philo[i].meal_counter = 0;
 		philo[i].time_last_meal = 0;
 		philo[i].first_time = get_time();
-		// philo[i].r_fork = &data->m_fork[i];
-		// if (i - 1 < 0)
-		// 	philo[i].l_fork = &data->m_fork[data->nbr_philos - 1];
-		// else
-		// 	philo[i].l_fork = &data->m_fork[i - 1];
+		philo[i].r_fork = &data->m_fork[i];
+		if (i - 1 < 0)
+			philo[i].l_fork = &data->m_fork[data->nbr_philos - 1];
+		else
+			philo[i].l_fork = &data->m_fork[i - 1];
 		i++;
 	}
 	return (philo);

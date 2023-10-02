@@ -38,10 +38,13 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 int	is_eating(t_philo *philo)
 {
 	int lock;
-	if (philo->philo_index % 2 == 0) {
+	if (philo->philo_index % 2 == 0)
+	{
     	pthread_mutex_lock(philo->r_fork);
     	pthread_mutex_lock(philo->l_fork);
-	} else {
+	}
+	else
+	{
     	pthread_mutex_lock(philo->l_fork);
     	pthread_mutex_lock(philo->r_fork);
 	}

@@ -68,11 +68,16 @@ int main (int ac, char **av)
 	if (ft_check_args(ac, av))
 	{
 		printf("Error\n Bad arguments!");
-		free(data);
+		// ft_free(data, philo);
+		// return (1);
+		exit (1);
 	}
 	philo = ft_init(ac, av, data);
 	if (philo == NULL)
+	{
+		ft_free(data, philo);
 		return (1);
+	}
 	if (ft_start_pthreads(data, philo))
 		ft_clean(data, philo);
 	if (ft_join_pthreads(philo, data))

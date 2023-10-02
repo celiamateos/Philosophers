@@ -22,7 +22,7 @@ typedef struct s_data
 	int 			meal_count;
 	int				philo_died;
 	pthread_mutex_t	*m_philo_died;
-	pthread_mutex_t	*m_fork;
+	pthread_mutex_t	**m_fork;
 	pthread_mutex_t m_write;
 
 }              t_data;

@@ -43,15 +43,11 @@ void ft_free(t_data *data, t_philo *philo)
 		free(data->m_philo_died);
     if(philo)
 		free (philo);
-	if(data)
-		free(data);
 }
 
-int    ft_error(int n, t_data *data, t_philo *philo)
+void    ft_error(t_data *data, t_philo *philo, char *str)
 {
-	if (n == 1)
-		exit(0);
-	if (data || philo)
-		ft_free(data, philo);
-	return (0);
+	printf("\nError, %s", str);
+	ft_clean(data, philo);
+	ft_free(data, philo);
 }

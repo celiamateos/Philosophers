@@ -22,9 +22,6 @@ void	*ft_calloc(size_t count, size_t size)
 	return (p);
 }
 
-
-
-
 long     ft_atol(const char *str)
 {
         unsigned int    i;

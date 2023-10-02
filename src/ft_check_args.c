@@ -25,16 +25,19 @@ int ft_isdigit(char **av, int i)
 {
 	int	j;
 
-	while (av[i] != NULL)
-	{
-		j = -1;
-		while (av[i][++j])
-		{
-			if (av[i][j] < '0' || av[i][j] > '9')
-				 return (-1);
-		}
-        i++;
-	}
+    if (av)
+    {
+	    while (av[i] != NULL)
+	    {
+		    j = -1;
+		    while (av[i][++j])
+		    {
+			    if (av[i][j] < '0' || av[i][j] > '9')
+				    return (-1);
+		    }
+            i++;
+	    }
+    }
     return (0);
 }
 
@@ -57,14 +60,17 @@ int ft_invalid_nbr(char **args, int i)
 {
     long check;
 
+    if (!args)
+        return (1);
     while(args[i] != NULL)
     {
         check = ft_atol(args[i]);
+        if (check < 0)
+            return (1);
 		if (check > (long)INT_MAX || check < (long)INT_MIN)
         {
-            // Pa negativos no funsiona :')
             printf("Error\n param is too big or too small.");
-            return (-1);
+            return (1);
         }
         i++;
     }
@@ -74,35 +80,28 @@ int ft_invalid_nbr(char **args, int i)
 int ft_check_args(int ac, char **av)
 {
     int i;
-    int ret;
     char **args;
 
-    ret = 0;
-    i = 0;
+    i = 1;
     if (ac != 5 && ac != 6 && ac != 2)
         return (1);
     if (ac == 2)
     {
+        i = 0;
         args = ft_split(av[1], 32);
-        if (args == NULL)
-            return(-1);
         if ((len_array(args) != 4 && len_array(args) != 5) || ft_isdigit(args, i))
         {
             ft_free_array(args);
-            return (-1);
+            return (1);
         }
     }
     else
-    {
-        i = 1;
         args = av;
-    }
     if (ft_isdigit(args, i) || ft_invalid_nbr(args, i))
-         ret = 1;
+         i = -1;
     if (ac == 2)
         ft_free_array(args);
-    if (ret == 1)
-        return (-1);
+    if (i == -1)
+        return (1);
     return (0);
 }
-

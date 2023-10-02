@@ -76,12 +76,13 @@ int	is_sleeping(t_philo *philo)
 void	*ft_routine(void *philos)
 {
 	t_philo *philo;
-	int limit;
-	int ret;
+	long limit;
+	int ret = 0;
 
 	philo = (t_philo *)philos;
 	// printf("\nEmpieza la rutina!");
 	limit = philo->data->meal_count;
+	// printf("\n%d", philo->data->meal_count);
 	if (philo->data->nbr_philos == 1)
 	{
 		usleep(philo->data->time_to_die * 1000);
@@ -92,10 +93,10 @@ void	*ft_routine(void *philos)
 	{
 		ret = is_eating(philo);
 		if (ret == 1)
-			break;
+			break ;
 		ret = is_sleeping(philo);
 		if (ret == 1)
-			break;
+			break ;
 		limit--;
 	}
 	return(NULL);

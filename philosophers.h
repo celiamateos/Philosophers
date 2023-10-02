@@ -19,7 +19,7 @@ typedef struct s_data
 	long		time_to_die;
 	long 		time_to_eat;
 	long			time_to_sleep;
-	int 			meal_count;
+	long			meal_count;
 	int				philo_died;
 	pthread_mutex_t	*m_philo_died;
 	pthread_mutex_t	**m_fork;
@@ -36,7 +36,6 @@ typedef struct s_philo
 	int     philo_index;
 	long	death_time;
 	long 	first_time;
-	int     meal_counter;
 	long	time_last_meal;
 	
 }           t_philo;
@@ -63,7 +62,7 @@ long     ft_atol(const char *str);
 
 //FREE AND CLEAN
 void	ft_clean(t_data *data, t_philo *philo);
-int		ft_error(int n, t_data *data, t_philo *philo);
+void		ft_error(t_data *data, t_philo *philo, char *str);
 void		ft_free(t_data *data, t_philo *philo);
 
 # endif

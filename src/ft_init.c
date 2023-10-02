@@ -11,19 +11,8 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-int	ft_init_data(int ac, char **av, t_data *data)
+void	ft_full_data(char **args, int i, t_data *data)
 {
-	int i;
-	char **args;
-
-	i = 0;
-	if (ac == 2)
-		args = ft_split(av[1], ' ');
-	else
-	{
-		i = 1;
-		args = av;
-	}
 	data->nbr_philos = atoi(args[i]);
 	data->time_to_die = atoi(args[i + 1]);
 	data->time_to_eat = atoi(args[i + 2]);
@@ -32,7 +21,27 @@ int	ft_init_data(int ac, char **av, t_data *data)
 	if (args[i + 4] != NULL)
 		data->meal_count = atoi(args[i + 4]);
 	else
-		data->meal_count = 100;
+		data->meal_count = LONG_MAX;
+}
+
+int	ft_init_data(int ac, char **av, t_data *data)
+{
+	int i;
+	char **args;
+
+	i = 0;
+	if (ac == 2)
+	{
+		args = ft_split(av[1], ' ');
+		if (!args)
+			return (1);
+	}
+	else
+	{
+		i = 1;
+		args = av;
+	}
+	ft_full_data(args, i, data);
 	if (ac == 2)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
@@ -70,13 +79,12 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 	i = 0;
 	philo = ft_calloc(data->nbr_philos, sizeof(t_philo));
 	if (!philo)
-		exit(1);
+		ft_error(data, philo, "\nError, failed malloc philo");
 	while (i < data->nbr_philos)
 	{
 		philo[i].philo_index = i + 1;
 		philo[i].data = data;
 		philo[i].death_time = data->time_to_die;
-		philo[i].meal_counter = 0;
 		philo[i].time_last_meal = 0;
 		philo[i].first_time = get_time();
 		philo[i].r_fork = data->m_fork[i];

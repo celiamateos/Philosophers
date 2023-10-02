@@ -25,7 +25,7 @@ BROWN =	\033[0;38;2;184;143;29m
 
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -W -g3 -fsanitize=address
 RM = rm -f
 SRC = ./src/philosophers.c ./src/utils.c ./src/ft_init.c ./src/ft_split.c ./src/ft_check_args.c ./src/ft_time.c ./src/ft_free_and_clean.c ./src/ft_routine.c
 OBJ = $(SRC:.c=.o)

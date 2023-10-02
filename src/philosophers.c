@@ -27,7 +27,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 	{
 		if (pthread_create(&philo[i].id, NULL, ft_routine, (void *)&philo[i]))
 		{
-			printf("\nError al crear el hilo");
+			printf("\nError, failed create thread");
 			return(1);
 		}
 
@@ -36,7 +36,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 	return (0);
 }
 
-int	ft_join_pthreads(t_philo *philo, t_data *data)
+void	ft_join_pthreads(t_philo *philo, t_data *data)
 {
 	int size;
 	int	i;
@@ -47,47 +47,36 @@ int	ft_join_pthreads(t_philo *philo, t_data *data)
 	{
 		if (pthread_join((philo[i].id), NULL) != 0)
 		{
-			printf("\nError,");
-			return(1);
+			printf("\nError, failed join thread");
+			break ;
 		}
 		i++;
 	}
 
-	return (0);
 }
 
 int main (int ac, char **av)
 {
 	// atexit(leaks);
-	t_data *data;
+	t_data data;
 	t_philo *philo = 0;
 
-	data = (t_data *)malloc(1 * sizeof(t_data));
-	if (!data)
-		return (-1);
 	if (ft_check_args(ac, av))
 	{
 		printf("Error\n Bad arguments!");
-		// ft_free(data, philo);
-		// return (1);
-		exit (1);
-	}
-	philo = ft_init(ac, av, data);
-	if (philo == NULL)
-	{
-		ft_free(data, philo);
 		return (1);
 	}
-	if (ft_start_pthreads(data, philo))
-		ft_clean(data, philo);
-	if (ft_join_pthreads(philo, data))
-		ft_clean(data, philo);
+	philo = ft_init(ac, av, &data);
+	if (philo)
+	{
+		if (!ft_start_pthreads(&data, philo))
+			ft_join_pthreads(philo, &data);
+	}
 	// printf("\nNúmero de philoss:%d", data->nbr_philos);
 	// printf("\nTime to die:%ld", data->time_to_die);
 	// printf("\nTime to eat:%ld", data->time_to_eat);
 	// printf("\nTime to sleep:%ld", data->time_to_sleep);
-	ft_clean(data, philo);
-	exit (1);
+	ft_clean(&data, philo);
 	return (0);
 }
 

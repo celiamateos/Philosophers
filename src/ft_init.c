@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../philosophers.h"
 
-void	ft_full_data(char **args, int i, t_data *data)
+int	ft_full_data(char **args, int i, t_data *data)
 {
 	data->nbr_philos = atoi(args[i]);
 	data->time_to_die = atoi(args[i + 1]);
@@ -19,16 +19,23 @@ void	ft_full_data(char **args, int i, t_data *data)
 	data->time_to_sleep = atoi(args[i + 3]);
 	data->philo_died = 0;
 	if (args[i + 4] != NULL)
+	{
 		data->meal_count = atoi(args[i + 4]);
+		if (data->meal_count < 1)
+			return (1);
+	}
 	else
-		data->meal_count = LONG_MAX;
+		data->meal_count = -1;
+	return (0);
 }
 
 int	ft_init_data(int ac, char **av, t_data *data)
 {
 	int i;
+	int lock;
 	char **args;
 
+	lock = 0;
 	i = 0;
 	if (ac == 2)
 	{
@@ -41,11 +48,12 @@ int	ft_init_data(int ac, char **av, t_data *data)
 		i = 1;
 		args = av;
 	}
-	ft_full_data(args, i, data);
+	if (ft_full_data(args, i, data))
+		lock = 1;
 	if (ac == 2)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
-		||data->time_to_die < 0 || data->meal_count < 0)
+		||data->time_to_die < 0 || lock == 1)
 		return(1);
 	return (0);
 }

@@ -72,10 +72,10 @@ int main (int ac, char **av)
 		if (!ft_start_pthreads(&data, philo))
 			ft_join_pthreads(philo, &data);
 	}
-	// printf("\nNúmero de philoss:%d", data->nbr_philos);
-	// printf("\nTime to die:%ld", data->time_to_die);
-	// printf("\nTime to eat:%ld", data->time_to_eat);
-	// printf("\nTime to sleep:%ld", data->time_to_sleep);
+	// printf("\nNúmero de philoss:%d", data.nbr_philos);
+	// printf("\nTime to die:%ld", data.time_to_die);
+	// printf("\nTime to eat:%ld", data.time_to_eat);
+	// printf("\nTime to sleep:%ld", data.time_to_sleep);
 	ft_clean(&data, philo);
 	return (0);
 }

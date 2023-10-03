@@ -11,41 +11,42 @@
 /* ************************************************************************** */
 #include "./../philosophers.h"
 
-void ft_clean(t_data *data, t_philo *philo)
+void	ft_clean(t_data *data, t_philo *philo)
 {
-	int i = 0;
+	int	i;
+
+	i = -1;
 	if (!philo)
 		return ;
-	while (i < data->nbr_philos)
-        {
-                pthread_mutex_destroy(data->m_fork[i]);
-                i++;
-        }
-        pthread_mutex_destroy(&data->m_write);
-		pthread_mutex_destroy(data->m_philo_died);
+	while (++i < data->nbr_philos)
+		pthread_mutex_destroy(data->m_fork[i]);
+	pthread_mutex_destroy(&data->m_write);
+	pthread_mutex_destroy(data->m_philo_died);
 	ft_free(data, philo);
 }
 
-void ft_free(t_data *data, t_philo *philo)
+void	ft_free(t_data *data, t_philo *philo)
 {
-	int i = 0;
-	if(data->m_fork)
+	int	i;
+
+	i = 0;
+	if (data->m_fork)
 	{
 		while (i < data->nbr_philos)
 		{
-			if(data->m_fork[i])
-				free(data->m_fork[i]);
+			if (data->m_fork[i])
+				free (data->m_fork[i]);
 			i++;
 		}
 		free(data->m_fork);
 	}
-	if(data->m_philo_died)
-		free(data->m_philo_died);
-    if(philo)
+	if (data->m_philo_died)
+		free (data->m_philo_died);
+	if (philo)
 		free (philo);
 }
 
-void    ft_error(t_data *data, t_philo *philo, char *str)
+void	ft_error(t_data *data, t_philo *philo, char *str)
 {
 	printf("\nError, %s", str);
 	ft_clean(data, philo);

@@ -31,9 +31,9 @@ int	ft_full_data(char **args, int i, t_data *data)
 
 int	ft_init_data(int ac, char **av, t_data *data)
 {
-	int i;
-	int lock;
-	char **args;
+	int		i;
+	int		lock;
+	char	**args;
 
 	lock = 0;
 	i = 0;
@@ -54,17 +54,17 @@ int	ft_init_data(int ac, char **av, t_data *data)
 		ft_free_array(args);
 	if (data->nbr_philos < 1 || data->nbr_philos > 200
 		||data->time_to_die < 0 || lock == 1)
-		return(1);
+		return (1);
 	return (0);
 }
 
 int	ft_init_mutex(t_data *data)
 {
-	int i;
+	int	i;
 
 	data->m_fork = ft_calloc(data->nbr_philos, sizeof(pthread_mutex_t *));
 	data->m_philo_died = ft_calloc(1, sizeof(pthread_mutex_t));
-	if(!data->m_fork || !data->m_philo_died)
+	if (!data->m_fork || !data->m_philo_died)
 		return (free(data), 1);
 	i = 0;
 	while (i < data->nbr_philos)
@@ -72,7 +72,7 @@ int	ft_init_mutex(t_data *data)
 		data->m_fork[i] = ft_calloc(1, sizeof(pthread_mutex_t));
 		if (!data->m_fork[i])
 			ft_free(data, NULL);
-		pthread_mutex_init(data->m_fork[i], NULL);	
+		pthread_mutex_init(data->m_fork[i], NULL);
 		i++;
 	}
 	pthread_mutex_init(&data->m_write, NULL);
@@ -80,9 +80,9 @@ int	ft_init_mutex(t_data *data)
 	return (0);
 }
 
-t_philo *ft_init_philos(t_data *data, t_philo *philo)
+t_philo	*ft_init_philos(t_data *data, t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	philo = ft_calloc(data->nbr_philos, sizeof(t_philo));
@@ -105,10 +105,11 @@ t_philo *ft_init_philos(t_data *data, t_philo *philo)
 	return (philo);
 }
 
-t_philo *ft_init(int ac, char **av, t_data *data)
+t_philo	*ft_init(int ac, char **av, t_data *data)
 {
-	t_philo *philo = 0;
+	t_philo	*philo;
 
+	philo = 0;
 	if (ft_init_data(ac, av, data))
 		return (NULL);
 	if (ft_init_mutex(data))
@@ -116,4 +117,3 @@ t_philo *ft_init(int ac, char **av, t_data *data)
 	philo = ft_init_philos(data, philo);
 	return (philo);
 }
-

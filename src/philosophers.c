@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 #include "./../philosophers.h"
 
-void    leaks()
+void	leaks()
 {
-	system ("leaks -q philosophers");
+	system ("leaks -q philo");
 }
 
 int	ft_start_pthreads(t_data *data, t_philo *philo)
 {
-	int size;
-	int i;
+	int	size;
+	int	i;
 
 	i = 0;
 	size = data->nbr_philos;
@@ -28,9 +28,8 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 		if (pthread_create(&philo[i].id, NULL, ft_routine, (void *)&philo[i]))
 		{
 			printf("\nError, failed create thread");
-			return(1);
+			return (1);
 		}
-
 		i++;
 	}
 	return (0);
@@ -38,7 +37,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 
 void	ft_join_pthreads(t_philo *philo, t_data *data)
 {
-	int size;
+	int	size;
 	int	i;
 
 	i = 0;
@@ -52,15 +51,15 @@ void	ft_join_pthreads(t_philo *philo, t_data *data)
 		}
 		i++;
 	}
-
 }
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
 	// atexit(leaks);
-	t_data data;
-	t_philo *philo = 0;
+	t_data	data;
+	t_philo	*philo;
 
+	philo = 0;
 	if (ft_check_args(ac, av))
 	{
 		printf("Error\n Bad arguments!");
@@ -72,11 +71,6 @@ int main (int ac, char **av)
 		if (!ft_start_pthreads(&data, philo))
 			ft_join_pthreads(philo, &data);
 	}
-	// printf("\nNúmero de philoss:%d", data.nbr_philos);
-	// printf("\nTime to die:%ld", data.time_to_die);
-	// printf("\nTime to eat:%ld", data.time_to_eat);
-	// printf("\nTime to sleep:%ld", data.time_to_sleep);
 	ft_clean(&data, philo);
 	return (0);
 }
-

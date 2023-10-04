@@ -20,7 +20,7 @@ void	ft_clean(t_data *data, t_philo *philo)
 		return ;
 	while (++i < data->nbr_philos)
 		pthread_mutex_destroy(data->m_fork[i]);
-	pthread_mutex_destroy(&data->m_write);
+	pthread_mutex_destroy(data->m_write);
 	pthread_mutex_destroy(data->m_philo_died);
 	ft_free(data, philo);
 }

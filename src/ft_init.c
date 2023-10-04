@@ -63,8 +63,9 @@ int	ft_init_mutex(t_data *data)
 	int	i;
 
 	data->m_fork = ft_calloc(data->nbr_philos, sizeof(pthread_mutex_t *));
+	data->m_write = ft_calloc(1, sizeof(pthread_mutex_t));
 	data->m_philo_died = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (!data->m_fork || !data->m_philo_died)
+	if (!data->m_fork || !data->m_philo_died || !data->m_write)
 		return (free(data), 1);
 	i = 0;
 	while (i < data->nbr_philos)
@@ -75,7 +76,7 @@ int	ft_init_mutex(t_data *data)
 		pthread_mutex_init(data->m_fork[i], NULL);
 		i++;
 	}
-	pthread_mutex_init(&data->m_write, NULL);
+	pthread_mutex_init(data->m_write, NULL);
 	pthread_mutex_init(data->m_philo_died, NULL);
 	return (0);
 }

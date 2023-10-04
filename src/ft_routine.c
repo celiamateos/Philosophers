@@ -16,23 +16,22 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 {
 	long	now;
 	int		lock;
-
 	lock = 0;
 
-	// printf("\nTIME LAST MEAL: %ld", (get_time() - philo->time_last_meal));
-	while (time > 0)
+	now = get_time();
+	while (1)
 	{
-		now = get_time();
-		// if (philo->time_last_meal == 0)
-		// 	philo->time_last_meal = philo->first_time;
-		if (now - philo->time_last_meal >= philo->death_time)
+		if (philo->time_last_meal == 0)
+			philo->time_last_meal = philo->first_time;
+		if (get_time() - philo->time_last_meal >= philo->death_time)
 		{
-			// printf("\n MUERTOOOOO");
 			lock = ft_print_status(philo, "died");
+			break ;
 		}
 
-		usleep(time * 1000);
-		time = time - 1000;
+		usleep(1000);
+		if (get_time() - now >= time / 1000)
+			break ;
 	}
 	if (lock == 1)
 		return (1);
@@ -43,8 +42,7 @@ int	is_eating(t_philo *philo)
 {
 	int	lock;
 
-	philo->time_last_meal = get_time();
-	if (philo->philo_index % 2 == 1)
+	if (philo->philo_index % 2 == 0)
 	{
 		pthread_mutex_lock(philo->r_fork);
 		pthread_mutex_lock(philo->l_fork);
@@ -57,11 +55,11 @@ int	is_eating(t_philo *philo)
 
 	ft_print_status(philo, "has taken a fork");
 	ft_print_status(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->data->m_write);
+	pthread_mutex_lock(philo->data->m_write);
 	ft_print_status(philo, "is eating");
-	pthread_mutex_unlock(&philo->data->m_write);
-
-	lock = ft_waiting_to_live(philo, philo->data->time_to_eat);
+	pthread_mutex_unlock(philo->data->m_write);
+	philo->time_last_meal = get_time();
+	lock = ft_waiting_to_live(philo, philo->data->time_to_eat * 1000);
 	// usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
@@ -73,7 +71,7 @@ int	is_eating(t_philo *philo)
 int	is_sleeping(t_philo *philo)
 {
 	ft_print_status(philo, "is sleeping");
-	if (ft_waiting_to_live(philo, philo->data->time_to_sleep) == 1)
+	if (ft_waiting_to_live(philo, philo->data->time_to_sleep * 1000) == 1)
 		return (1);
 	// usleep(philo->data->time_to_sleep * 1000);
 	ft_print_status(philo, "is thinking");
@@ -97,6 +95,8 @@ void	*ft_routine(void *philos)
 		printf("\n%ld 1 died", (get_time() - philo->first_time));
 		return (NULL);
 	}
+	// if (philo->philo_index % 2 == 0)
+	// 	usleep(10000);
 	while (limit != 0)
 	{
 		ret = is_eating(philo);

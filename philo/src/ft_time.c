@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./../philosophers.h"
 
 int	ft_waiting_to_live(t_philo *philo, long time)
 {
 	long	now;
 	int		lock;
-	
+
 	lock = 0;
 	now = get_time(philo->data);
 	time = time * 1000;
@@ -76,7 +75,6 @@ int	ft_print_status(t_philo *philo, char *msg)
 
 	lock = 0;
 	index = philo->philo_index;
-	
 	pthread_mutex_lock(philo->data->m_philo_died);
 	time = get_time(philo->data) - philo->first_time;
 	if (philo->data->philo_died == 0)

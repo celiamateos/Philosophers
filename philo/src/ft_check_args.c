@@ -77,31 +77,30 @@ int	ft_invalid_nbr(char **args, int i)
 	return (0);
 }
 
-int	ft_check_args(int ac, char **av)
+int	ft_check_args(t_data *data, int ac, char **av)
 {
-	int		i;
-	char	**args;
-
-	i = 1;
+	data->i = 1;
 	if (ac != 5 && ac != 6 && ac != 2)
 		return (1);
 	if (ac == 2)
 	{
-		i = 0;
-		args = ft_split(av[1], 32);
-		if (len_array(args) != 4 && len_array(args) != 5)
+		data->i = 0;
+		data->args = ft_split(av[1], 32);
+		if (!data->args)
+			return (1);
+		if (len_array(data->args) != 4 && len_array(data->args) != 5)
 		{
-			ft_free_array(args);
+			ft_free_array(data->args);
 			return (1);
 		}
 	}
 	else
-		args = av;
-	if (ft_isdigit(args, i) || ft_invalid_nbr(args, i))
-		i = -1;
+		data->args = av;
+	if (ft_isdigit(data->args, data->i) || ft_invalid_nbr(data->args, data->i))
+		data->i = -1;
 	if (ac == 2)
-		ft_free_array(args);
-	if (i == -1)
+		ft_free_array(data->args);
+	if (data->i == -1)
 		return (1);
 	return (0);
 }

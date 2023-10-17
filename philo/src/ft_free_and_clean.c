@@ -40,6 +40,10 @@ void	ft_free(t_data *data, t_philo *philo)
 		}
 		free(data->m_fork);
 	}
+	if (data->m_write)
+		free (data->m_write);
+	if (data->shared_fork)
+		free (data->shared_fork);
 	if (data->m_philo_died)
 		free (data->m_philo_died);
 	if (philo)

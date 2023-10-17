@@ -27,6 +27,8 @@
 
 typedef struct s_data
 {
+	int				i;
+	char			**args;
 	int				nbr_philos;
 	long			time_to_die;
 	long			time_to_eat;
@@ -56,7 +58,7 @@ typedef struct s_philo
 
 //INIT
 int		main(int ac, char **av);
-int		ft_check_args(int ac, char **av);
+int		ft_check_args(t_data *data, int ac, char **av);
 t_philo	*ft_init(int ac, char **av, t_data *data);
 
 //ROUTINE

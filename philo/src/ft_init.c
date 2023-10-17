@@ -92,8 +92,9 @@ t_philo	*ft_init_philos(t_data *data, t_philo *philo)
 	i = 0;
 	philo = ft_calloc(data->nbr_philos, sizeof(t_philo));
 	data->shared_fork = ft_calloc(data->nbr_philos, sizeof(char));
-	if (!philo)
-		ft_error(data, philo, "\nError, failed malloc philo");
+	if (!philo || !data->shared_fork)
+		ft_free(data, philo);
+		//POSIBLE LEAKS AQUÍ
 	while (i < data->nbr_philos)
 	{
 		philo[i].philo_index = i + 1;

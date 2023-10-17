@@ -77,9 +77,7 @@ void	*ft_routine(void *philos)
 {
 	t_philo	*philo;
 	long	limit;
-	int		ret;
 
-	ret = 0;
 	philo = (t_philo *)philos;
 	limit = philo->data->meal_count;
 	philo->first_time = get_time(philo->data);
@@ -94,11 +92,9 @@ void	*ft_routine(void *philos)
 		usleep(15 * 1000);
 	while (limit != 0)
 	{
-		ret = is_eating(philo);
-		if (ret == 1)
+		if (is_eating(philo))
 			break ;
-		ret = is_sleeping(philo);
-		if (ret == 1)
+		if (is_sleeping(philo))
 			break ;
 		limit--;
 	}

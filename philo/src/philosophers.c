@@ -55,12 +55,12 @@ void	ft_join_pthreads(t_philo *philo, t_data *data)
 
 int	main(int ac, char **av)
 {
-	// atexit(leaks);
+	atexit(leaks);
 	t_data	data;
 	t_philo	*philo;
 
 	philo = 0;
-	if (ft_check_args(ac, av))
+	if (ft_check_args(&data, ac, av))
 	{
 		printf("Error\n Bad arguments!");
 		return (1);

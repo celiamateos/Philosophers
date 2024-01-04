@@ -6,7 +6,7 @@
 /*   By: cmateos <cmateos-@student.42madrid.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:40:00 by cmateos           #+#    #+#             */
-/*   Updated: 2023/10/05 17:40:01 by cmateos-         ###   ########.fr       */
+/*   Updated: 2024/01/04 20:31:10 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 	time = time * 1000;
 	while (1)
 	{
-		
 		if (get_time(philo->data) - philo->time_last_meal >= philo->death_time)
 		{
 			lock = ft_print_status(philo, "died");
@@ -30,8 +29,7 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 		}
 		if (get_time(philo->data) - now >= time / 1000)
 			break ;
-		usleep(1000); // NO SE QUE COÑO PPONER AQUI :')
-		// ft_mssleep(1, philo->data);
+		usleep(500);
 	}
 	if (lock == 1)
 		return (1);
@@ -50,19 +48,17 @@ long	get_time(t_data *data)
 	return ((sec - data->tv_sec) * 1000 + ((usec - data->tv_usec) / 1000));
 }
 
-void ft_mssleep(long ms, t_data *data)
+void	ft_mssleep(long ms, t_data *data)
 {
 	long	start;
 	long	current;
 
 	start = get_time(data);
-	// while ((get_time(data) - start) < ms)
-	// 	usleep(ms / 10);
 	while (1)
 	{
 		current = get_time(data);
-		if (current -  start >= ms)
-			break;
+		if (current - start >= ms)
+			break ;
 		usleep(20);
 	}
 }
@@ -107,15 +103,4 @@ int	ft_print_status(t_philo *philo, char *msg)
 	if (lock == 1)
 		return (1);
 	return (0);
-}
-
-void	ft_print_think(t_philo *philo, char *msg)
-{
-	int		index;
-	long	time;
-
-	index = philo->philo_index;
-	time = get_time(philo->data) - philo->first_time;
-	if (philo->data->philo_died == 0)
-		printf("%ld %d %s\n", time, index, msg);
 }

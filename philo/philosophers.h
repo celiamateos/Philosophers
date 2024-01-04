@@ -72,7 +72,6 @@ void	*ft_routine(void *philos);
 int		is_sleeping(t_philo *philo);
 int		is_eating(t_philo *philo);
 int		ft_print_status(t_philo *philo, char *msg);
-void	ft_print_think(t_philo *philo, char *msg);
 
 //CHECK DIE
 int		check_die(t_philo *philo);
@@ -82,7 +81,7 @@ int		check_i_die(t_philo *philo);
 //TIME
 int		ft_waiting_to_live(t_philo *philo, long time);
 long	get_time(t_data *data);
-void ft_mssleep(long ms, t_data *data);
+void	ft_mssleep(long ms, t_data *data);
 
 //UTILS
 void	*ft_calloc(size_t count, size_t size);

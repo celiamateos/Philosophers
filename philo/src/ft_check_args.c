@@ -65,7 +65,7 @@ int	ft_invalid_nbr(char **args, int i)
 	while (args[i] != NULL)
 	{
 		check = ft_atol(args[i]);
-		if (check < 0)
+		if (check <= 0)
 			return (1);
 		if (check > (long)INT_MAX || check < (long)INT_MIN)
 		{

@@ -94,7 +94,6 @@ t_philo	*ft_init_philos(t_data *data, t_philo *philo)
 	data->shared_fork = ft_calloc(data->nbr_philos, sizeof(char));
 	if (!philo || !data->shared_fork)
 		ft_free(data, philo);
-		//POSIBLE LEAKS AQUÍ
 	while (i < data->nbr_philos)
 	{
 		philo[i].philo_index = i + 1;
@@ -115,6 +114,12 @@ t_philo	*ft_init(int ac, char **av, t_data *data)
 	philo = 0;
 	if (ft_init_data(ac, av, data))
 		return (NULL);
+	if (data->time_to_die < 60
+		|| data->time_to_eat < 60 || data->time_to_sleep < 60)
+	{
+		printf("Error\n Bad arguments!");
+		return (NULL);
+	}
 	if (ft_init_mutex(data))
 		return (NULL);
 	philo = ft_init_philos(data, philo);

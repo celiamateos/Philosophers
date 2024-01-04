@@ -54,10 +54,12 @@ int	is_eating(t_philo *philo)
 	}
 	if (!check_die(philo))
 	{
+		// if (ft_print_status(philo, EAT))
+		// 	return (1);
 		ft_print_status(philo, EAT);
 		philo->time_last_meal = get_time(philo->data);
 		philo->lock = ft_waiting_to_live(philo, philo->data->time_to_eat);
-		//ft_mssleep(philo->data->time_to_eat, philo->data);
+		// ft_mssleep(philo->data->time_to_eat, philo->data);
 		putdown_fork(philo, left_fork, right_fork);
 		if (philo->lock == 0)
 			return (0);
@@ -68,10 +70,14 @@ int	is_eating(t_philo *philo)
 int	is_sleeping(t_philo *philo)
 {
 	ft_print_status(philo, SLEEP);
+	// if (ft_print_status(philo, SLEEP))
+			// return (1);
 	if (ft_waiting_to_live(philo, philo->data->time_to_sleep) == 1)
 		return (1);
-	//ft_mssleep(philo->data->time_to_sleep, philo->data);
+	// ft_mssleep(philo->data->time_to_sleep, philo->data);
 	ft_print_status(philo, THINK);
+	// if (ft_print_status(philo, THINK))
+			// return (1);
 	return (0);
 }
 
@@ -93,7 +99,8 @@ void	*ft_routine(void *philos)
 		return (NULL);
 	}
 	if (philo->philo_index % 2 == 0)
-		ft_mssleep(5, philo->data);
+		usleep(2 * 1000);
+		// ft_mssleep(1, philo->data); // con este va mal
 	while (limit != 0)
 	{
 		if (is_eating(philo))

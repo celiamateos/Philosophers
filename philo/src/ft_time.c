@@ -30,8 +30,8 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 		}
 		if (get_time(philo->data) - now >= time / 1000)
 			break ;
-		usleep(5);
-		//ft_mssleep(5, philo->data);
+		usleep(1000); // NO SE QUE COÑO PPONER AQUI :')
+		// ft_mssleep(1, philo->data);
 	}
 	if (lock == 1)
 		return (1);
@@ -56,6 +56,8 @@ void ft_mssleep(long ms, t_data *data)
 	long	current;
 
 	start = get_time(data);
+	// while ((get_time(data) - start) < ms)
+	// 	usleep(ms / 10);
 	while (1)
 	{
 		current = get_time(data);

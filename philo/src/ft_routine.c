@@ -19,7 +19,7 @@ static void	check_fork(t_philo *philo, int pos)
 	{
 		philo->data->shared_fork[pos] = 1;
 		philo->forks += 1;
-		ft_print_status(philo, "has taken a fork");
+		ft_print_status(philo, FORK);
 	}
 	pthread_mutex_unlock(philo->data->m_fork[pos]);
 }
@@ -54,9 +54,10 @@ int	is_eating(t_philo *philo)
 	}
 	if (!check_die(philo))
 	{
-		ft_print_status(philo, "is eating");
+		ft_print_status(philo, EAT);
 		philo->time_last_meal = get_time(philo->data);
 		philo->lock = ft_waiting_to_live(philo, philo->data->time_to_eat);
+		//ft_mssleep(philo->data->time_to_eat, philo->data);
 		putdown_fork(philo, left_fork, right_fork);
 		if (philo->lock == 0)
 			return (0);
@@ -66,10 +67,11 @@ int	is_eating(t_philo *philo)
 
 int	is_sleeping(t_philo *philo)
 {
-	ft_print_status(philo, "is sleeping");
+	ft_print_status(philo, SLEEP);
 	if (ft_waiting_to_live(philo, philo->data->time_to_sleep) == 1)
 		return (1);
-	ft_print_status(philo, "is thinking");
+	//ft_mssleep(philo->data->time_to_sleep, philo->data);
+	ft_print_status(philo, THINK);
 	return (0);
 }
 
@@ -79,17 +81,19 @@ void	*ft_routine(void *philos)
 	long	limit;
 
 	philo = (t_philo *)philos;
+	//pthread_mutex_lock(philo->data->m_write);
+	//clepthread_mutex_unlock(philo->data->m_write);
 	limit = philo->data->meal_count;
 	philo->first_time = get_time(philo->data);
 	if (philo->data->nbr_philos == 1)
 	{
-		ft_print_status(philo, "has taken a fork");
-		usleep(philo->data->time_to_die * 1000);
+		ft_print_status(philo, FORK);
+		ft_mssleep(philo->data->time_to_die, philo->data);
 		printf("%ld 1 died", (get_time(philo->data) - philo->first_time));
 		return (NULL);
 	}
 	if (philo->philo_index % 2 == 0)
-		usleep(15 * 1000);
+		ft_mssleep(5, philo->data);
 	while (limit != 0)
 	{
 		if (is_eating(philo))

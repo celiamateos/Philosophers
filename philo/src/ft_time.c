@@ -22,7 +22,7 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 	time = time * 1000;
 	while (1)
 	{
-		usleep(100);
+		
 		if (get_time(philo->data) - philo->time_last_meal >= philo->death_time)
 		{
 			lock = ft_print_status(philo, "died");
@@ -30,6 +30,8 @@ int	ft_waiting_to_live(t_philo *philo, long time)
 		}
 		if (get_time(philo->data) - now >= time / 1000)
 			break ;
+		usleep(5);
+		//ft_mssleep(5, philo->data);
 	}
 	if (lock == 1)
 		return (1);
@@ -46,6 +48,21 @@ long	get_time(t_data *data)
 	sec = now_time.tv_sec;
 	usec = now_time.tv_usec;
 	return ((sec - data->tv_sec) * 1000 + ((usec - data->tv_usec) / 1000));
+}
+
+void ft_mssleep(long ms, t_data *data)
+{
+	long	start;
+	long	current;
+
+	start = get_time(data);
+	while (1)
+	{
+		current = get_time(data);
+		if (current -  start >= ms)
+			break;
+		usleep(20);
+	}
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -88,4 +105,15 @@ int	ft_print_status(t_philo *philo, char *msg)
 	if (lock == 1)
 		return (1);
 	return (0);
+}
+
+void	ft_print_think(t_philo *philo, char *msg)
+{
+	int		index;
+	long	time;
+
+	index = philo->philo_index;
+	time = get_time(philo->data) - philo->first_time;
+	if (philo->data->philo_died == 0)
+		printf("%ld %d %s\n", time, index, msg);
 }

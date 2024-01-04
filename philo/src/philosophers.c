@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "./../philosophers.h"
 
-void	leaks()
+void	leaks(void)
 {
 	system ("leaks -q philo");
 }
@@ -23,6 +23,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 
 	i = 0;
 	size = data->nbr_philos;
+	// pthread_mutex_lock(kdata->m_write);
 	while (i < size)
 	{
 		if (pthread_create(&philo[i].id, NULL, ft_routine, (void *)&philo[i]))
@@ -32,6 +33,7 @@ int	ft_start_pthreads(t_data *data, t_philo *philo)
 		}
 		i++;
 	}
+	// pthread_mutex_unlock(data->m_write);
 	return (0);
 }
 
@@ -55,7 +57,7 @@ void	ft_join_pthreads(t_philo *philo, t_data *data)
 
 int	main(int ac, char **av)
 {
-	atexit(leaks);
+	// atexit(leaks);
 	t_data	data;
 	t_philo	*philo;
 
